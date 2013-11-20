@@ -31,7 +31,7 @@ File.open(filename).each do |line|
 	name = $1
 	fqdn = $2
 
-	command = 'echo knife bootstrap '       \
+	command = 'knife bootstrap '       \
 			+ fqdn                     \
 			+ ' -N ' + name            \
 			+ ' --template macys.erb ' \
@@ -46,6 +46,23 @@ File.open(filename).each do |line|
 
 	warn "The bootstrap of node '#{name}' had an error. (Return code: #{ret})" if ret != 0
 
-	check.push(name).push(ret)	
+	check.push([name,ret])	
 end
 
+### Verify bootstraps
+
+count = check.length
+puts "\n\n\nVerifying that all #{count} servers were bootstrapped.";
+
+nodes = Hash.new
+list = `knife node list`.split(/\n/)
+list.each do |name|
+	nodes[name] = 1
+end
+
+puts "Found #{nodes.length} nodes on the chef server.\n";
+
+check.each do |to_check|
+	ok = nodes.has_key?(to_check[0]) ? 'ok' : "NOT PRESENT (#{to_check[1]})"
+	puts "#{to_check[0]} : [ #{ok} ]"
+end
