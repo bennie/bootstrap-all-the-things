@@ -46,7 +46,7 @@ File.open(filename).each do |line|
 
 	warn "The bootstrap of node '#{name}' had an error. (Return code: #{ret})" if ret != 0
 
-	check.push([name,ret])	
+	check.push([name,ret])
 end
 
 ### Verify bootstraps
@@ -54,10 +54,10 @@ end
 count = check.length
 puts "\n\n\nVerifying that all #{count} servers were bootstrapped.";
 
-nodes = Hash.new
+nodes = Hash.new(0)
 list = `knife node list`.split(/\n/)
 list.each do |name|
-	nodes[name] = 1
+	nodes[name] += 1
 end
 
 puts "Found #{nodes.length} nodes on the chef server.\n";
