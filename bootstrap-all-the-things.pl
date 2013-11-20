@@ -1,7 +1,13 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use Term::Prompt;
 use strict;
+
+=head1 bootstrap-all-the-things.pl
+
+  %> ./bootstrap-all-the-things.pl USERNAME PASSWORD FILENAME
+
+=cut
 
 ## Gather username, password and input filename
 
